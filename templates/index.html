@@ -2,74 +2,144 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Дневник тренировок</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 0;
+        }
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            font-size: 22px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background: #667eea;
+            border: none;
+            padding: 10px 30px;
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+        table {
+            margin-top: 20px;
+        }
+        th {
+            background: #2c3e50 !important;
+            color: white !important;
+        }
+        .delete-btn {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .delete-btn:hover {
+            color: #c0392b;
+        }
+    </style>
 </head>
 <body>
-    <h1>Дневник тренировок</h1>
+    <div class="container">
+        <div class="main-card">
+            <h1>💪 Дневник тренировок</h1>
 
-    <h2>Добавить тренировку</h2>
-    <form action="/add" method="post">
-        <label>Дата:</label>
-        <input type="date" name="date" value="{{ today }}" required>
-        <br>
+            <h2>Добавить тренировку</h2>
+            <form action="/add" method="post" class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Дата</label>
+                    <input type="date" name="date" value="{{ today }}" class="form-control" required>
+                </div>
 
-        <label>Упражнение:</label>
-        <select name="exercise" required>
-            <option value="жим">Жим лёжа</option>
-            <option value="присед">Присед</option>
-            <option value="тяга">Становая тяга</option>
-            <option value="подтягивания">Подтягивания</option>
-            <option value="отжимания">Отжимания</option>
-        </select>
-        <br>
+                <div class="col-md-6">
+                    <label class="form-label">Упражнение</label>
+                    <select name="exercise" class="form-select" required>
+                        <option value="жим">Жим лёжа</option>
+                        <option value="присед">Присед</option>
+                        <option value="тяга">Становая тяга</option>
+                        <option value="подтягивания">Подтягивания</option>
+                        <option value="отжимания">Отжимания</option>
+                    </select>
+                </div>
 
-        <label>Подходы:</label>
-        <input type="number" name="sets" min="1" required>
-        <br>
+                <div class="col-md-3">
+                    <label class="form-label">Подходы</label>
+                    <input type="number" name="sets" min="1" class="form-control" required>
+                </div>
 
-        <label>Повторения:</label>
-        <input type="number" name="reps" min="1" required>
-        <br>
+                <div class="col-md-3">
+                    <label class="form-label">Повторения</label>
+                    <input type="number" name="reps" min="1" class="form-control" required>
+                </div>
 
-        <label>Вес (кг):</label>
-        <input type="number" name="weight" step="0.5" min="0">
-        <br>
+                <div class="col-md-3">
+                    <label class="form-label">Вес (кг)</label>
+                    <input type="number" name="weight" step="0.5" min="0" class="form-control">
+                </div>
 
-        <label>Заметка:</label>
-        <input type="text" name="note">
-        <br>
+                <div class="col-md-3">
+                    <label class="form-label">Заметка</label>
+                    <input type="text" name="note" class="form-control">
+                </div>
 
-        <button type="submit">Добавить</button>
-    </form>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Добавить тренировку</button>
+                </div>
+            </form>
 
-    <hr>
-
-    <h2>Мои тренировки</h2>
-    {% if workouts %}
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>Дата</th>
-            <th>Упражнение</th>
-            <th>Подходы</th>
-            <th>Повторения</th>
-            <th>Вес</th>
-            <th>Заметка</th>
-            <th></th>
-        </tr>
-        {% for w in workouts %}
-        <tr>
-            <td>{{ w[1] }}</td>
-            <td>{{ w[2] }}</td>
-            <td>{{ w[3] }}</td>
-            <td>{{ w[4] }}</td>
-            <td>{{ w[5] if w[5] else "—" }}</td>
-            <td>{{ w[6] if w[6] else "" }}</td>
-            <td><a href="/delete/{{ w[0] }}">✕</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    <p>Пока нет тренировок. Добавь первую!</p>
-    {% endif %}
+            <h2>Мои тренировки</h2>
+            {% if workouts %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Упражнение</th>
+                            <th>Подходы</th>
+                            <th>Повторения</th>
+                            <th>Вес</th>
+                            <th>Заметка</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for w in workouts %}
+                        <tr>
+                            <td>{{ w[1] }}</td>
+                            <td>{{ w[2] }}</td>
+                            <td>{{ w[3] }}</td>
+                            <td>{{ w[4] }}</td>
+                            <td>{{ w[5] if w[5] else "—" }}</td>
+                            <td>{{ w[6] if w[6] else "" }}</td>
+                            <td><a href="/delete/{{ w[0] }}" class="delete-btn">✕</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info text-center">
+                Пока нет тренировок. Добавь первую!
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </body>
 </html>
