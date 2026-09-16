@@ -21,7 +21,12 @@
             color: #2c3e50;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
+        }
+        .user-bar {
+            text-align: right;
+            color: #666;
+            margin-bottom: 20px;
         }
         h2 {
             color: #34495e;
@@ -37,9 +42,6 @@
         }
         .btn-primary:hover {
             background: #5568d3;
-        }
-        table {
-            margin-top: 20px;
         }
         th {
             background: #2c3e50 !important;
@@ -59,6 +61,11 @@
 <body>
     <div class="container">
         <div class="main-card">
+            <div class="user-bar">
+                Привет, <strong>{{ username }}</strong>!
+                <a href="/logout" class="btn btn-sm btn-outline-secondary">Выйти</a>
+            </div>
+
             <h1>💪 Дневник тренировок</h1>
 
             <h2>Добавить тренировку</h2>
@@ -67,7 +74,6 @@
                     <label class="form-label">Дата</label>
                     <input type="date" name="date" value="{{ today }}" class="form-control" required>
                 </div>
-
                 <div class="col-md-6">
                     <label class="form-label">Упражнение</label>
                     <select name="exercise" class="form-select" required>
@@ -78,27 +84,22 @@
                         <option value="отжимания">Отжимания</option>
                     </select>
                 </div>
-
                 <div class="col-md-3">
                     <label class="form-label">Подходы</label>
                     <input type="number" name="sets" min="1" class="form-control" required>
                 </div>
-
                 <div class="col-md-3">
                     <label class="form-label">Повторения</label>
                     <input type="number" name="reps" min="1" class="form-control" required>
                 </div>
-
                 <div class="col-md-3">
                     <label class="form-label">Вес (кг)</label>
                     <input type="number" name="weight" step="0.5" min="0" class="form-control">
                 </div>
-
                 <div class="col-md-3">
                     <label class="form-label">Заметка</label>
                     <input type="text" name="note" class="form-control">
                 </div>
-
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-primary btn-lg">Добавить тренировку</button>
                 </div>
@@ -122,12 +123,12 @@
                     <tbody>
                         {% for w in workouts %}
                         <tr>
-                            <td>{{ w[1] }}</td>
                             <td>{{ w[2] }}</td>
                             <td>{{ w[3] }}</td>
                             <td>{{ w[4] }}</td>
-                            <td>{{ w[5] if w[5] else "—" }}</td>
-                            <td>{{ w[6] if w[6] else "" }}</td>
+                            <td>{{ w[5] }}</td>
+                            <td>{{ w[6] if w[6] else "—" }}</td>
+                            <td>{{ w[7] if w[7] else "" }}</td>
                             <td><a href="/delete/{{ w[0] }}" class="delete-btn">✕</a></td>
                         </tr>
                         {% endfor %}
